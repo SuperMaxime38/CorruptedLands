@@ -1,0 +1,13 @@
+name: CorruptedLands
+author: PoutreCosmique
+version: 1.0.0
+main: fr.poutrecosmique.corruptedlands.CorruptedLands
+description: A plugin :)
+api-version: 1.13
+commands:
+  cluster:
+    permission: corruptedlands.cluster
+    description: Command to handle clusters
+  corruption:
+    permission: corruptedlands.corruption
+    description: Command to start/end a game
