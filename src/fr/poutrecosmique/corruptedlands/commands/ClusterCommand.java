@@ -7,7 +7,11 @@ import org.bukkit.entity.Player;
 
 import fr.poutrecosmique.corruptedlands.world.Cluster;
 import fr.poutrecosmique.corruptedlands.world.ClusterManager;
+import fr.poutrecosmique.corruptedlands.world.biomes.BasaltDeltas;
+import fr.poutrecosmique.corruptedlands.world.biomes.CrimsonForest;
 import fr.poutrecosmique.corruptedlands.world.biomes.NetherWastes;
+import fr.poutrecosmique.corruptedlands.world.biomes.SoulSandValley;
+import fr.poutrecosmique.corruptedlands.world.biomes.WarpedForest;
 
 public class ClusterCommand implements CommandExecutor {
 
@@ -46,6 +50,37 @@ public class ClusterCommand implements CommandExecutor {
 					return true;
 				}
 				return true;
+			case 2:
+				if(args[0].equals("create")) {
+					switch(args[1]) {
+					case "netherwastes":
+						ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new NetherWastes()));
+						sender.sendMessage("§aCluster created");
+						return true;
+					case "basaltdeltas":
+						ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new BasaltDeltas()));
+						sender.sendMessage("§aCluster created");
+						return true;
+					case "crimsonforest":
+						ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new CrimsonForest()));
+						sender.sendMessage("§aCluster created");
+						return true;
+					case "soulsandvalley":
+						ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new SoulSandValley()));
+						sender.sendMessage("§aCluster created");
+						return true;
+					case "warpedforest":
+						ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new WarpedForest()));
+						sender.sendMessage("§aCluster created");
+						return true;
+					default:
+						sender.sendMessage("§cWrong biome <netherwastes|basaltdeltas|crimsonforest|soulsandvalley|warpedforest>");
+						return true;
+					}
+				}
+				
+				return true;
+					
 		}
 		
 		return false;

@@ -10,6 +10,7 @@ import fr.poutrecosmique.corruptedlands.CorruptedLands;
 public class ClusterManager {
 	
 	static List<Cluster> clusters = new ArrayList<Cluster>();
+	static final int default_radius = 1;
 	
 	
 	static int delay = 30;
@@ -70,12 +71,16 @@ public class ClusterManager {
 			while(j < clusters.size()) {
 				
 				next = clusters.get(j);
-				if(current == next) continue; // Same one we don't care
+				if(current != next) {
 				
-				if(current.isMergeable(next)) {
-					current.merge(next);
-					clusters.remove(next);
+					if(current.isMergeable(next)) {
+						System.out.println("Merging...");
+						current.merge(next);
+						clusters.remove(next);
+					}
 				}
+				
+				
 				
 				j++;
 			}

@@ -1,7 +1,5 @@
 package fr.poutrecosmique.corruptedlands.world.biomes;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 
 public class SoulSandValley extends NetherBiome {
@@ -13,12 +11,12 @@ public class SoulSandValley extends NetherBiome {
 		sand = Material.GRAVEL;
 		gravel = Material.GRAVEL;
 		plants = new Material[] { Material.CRIMSON_ROOTS, Material.SOUL_FIRE, Material.SOUL_FIRE };
-		
-		rdm = new Random();
 	}
 
 	@Override
 	public Material getMaterialFor(Material block) {
+		if(ignored.contains(block)) return block;
+		
 		switch(block) {
 		case COAL_ORE:
 			return ores[0];
@@ -27,58 +25,20 @@ public class SoulSandValley extends NetherBiome {
 		case GOLD_ORE:
 			return ores[1];
 		case DIAMOND_ORE:
-			return Material.NETHERITE_SCRAP;
+			return Material.ANCIENT_DEBRIS;
 		case LAPIS_ORE:
 			return ores[0];
 		case EMERALD_ORE:
-			return Material.NETHERITE_SCRAP;
+			return Material.ANCIENT_DEBRIS;
 		case REDSTONE_ORE:
 			return ores[0];
 		case SAND:
 			return sand;
 		case GRAVEL:
 			return gravel;
-		case GRASS:
-			return randomPlant();
-		case TALL_GRASS:
-			return randomPlant();
-		case WHEAT_SEEDS:
-			return randomPlant();
-		case CARROTS:
-			return randomPlant();
-		case POTATOES:
-			return randomPlant();
-		case MELON_STEM:
-			return randomPlant();
-		case PUMPKIN_STEM:
-			return randomPlant();
-		case BEETROOT_SEEDS:
-			return randomPlant();
-		case ATTACHED_MELON_STEM:
-			return randomPlant();
-		case ATTACHED_PUMPKIN_STEM:
-			return randomPlant();
-		case DANDELION:
-			return randomPlant();
-		case POPPY:
-			return randomPlant();
-		case AZURE_BLUET:
-			return randomPlant();
-		case RED_TULIP:
-			return randomPlant();
-		case ORANGE_TULIP:
-			return randomPlant();
-		case WHITE_TULIP:
-			return randomPlant();
-		case PINK_TULIP:
-			return randomPlant();
-		case OXEYE_DAISY:
-			return randomPlant();
 		case WATER:
 			return Material.LAVA;
 		case GRASS_BLOCK:
-			return Material.SOUL_SAND;
-		case DIRT:
 			return Material.SOUL_SAND;
 
 			
@@ -107,70 +67,53 @@ public class SoulSandValley extends NetherBiome {
 			return Material.AIR;
 		case DARK_OAK_LEAVES:
 			return Material.AIR;
+		case MUSHROOM_STEM:
+			return Material.AIR;
+		case BROWN_MUSHROOM_BLOCK:
+			return Material.AIR;
+		case RED_MUSHROOM_BLOCK:
+			return Material.AIR;
+		case GRASS:
+			return Material.AIR;
+		case TALL_GRASS:
+			return Material.AIR;
+		case WHEAT_SEEDS:
+			return Material.AIR;
+		case CARROTS:
+			return Material.AIR;
+		case POTATOES:
+			return Material.AIR;
+		case MELON_STEM:
+			return Material.AIR;
+		case PUMPKIN_STEM:
+			return Material.AIR;
+		case BEETROOT_SEEDS:
+			return Material.AIR;
+		case ATTACHED_MELON_STEM:
+			return Material.AIR;
+		case ATTACHED_PUMPKIN_STEM:
+			return Material.AIR;
+		case DANDELION:
+			return Material.AIR;
+		case POPPY:
+			return Material.AIR;
+		case AZURE_BLUET:
+			return Material.AIR;
+		case RED_TULIP:
+			return Material.AIR;
+		case ORANGE_TULIP:
+			return Material.AIR;
+		case WHITE_TULIP:
+			return Material.AIR;
+		case PINK_TULIP:
+			return Material.AIR;
+		case OXEYE_DAISY:
+			return Material.AIR;
 			
-
-			// Don't change the block already updated
-		case LAVA:
-			return Material.LAVA;
-		case NETHER_QUARTZ_ORE:
-			return Material.NETHER_QUARTZ_ORE;
-		case NETHER_GOLD_ORE:
-			return Material.NETHER_GOLD_ORE;
-		case NETHERITE_SCRAP:
-			return Material.NETHERITE_SCRAP;
-		case SOUL_SOIL:
-			return Material.SOUL_SOIL;
-		case SOUL_FIRE:
-			return Material.SOUL_FIRE;
-		case CRIMSON_ROOTS:
-			return Material.CRIMSON_ROOTS;
-		case WARPED_ROOTS:
-			return Material.WARPED_ROOTS;
-		case CRIMSON_FUNGUS:
-			return Material.CRIMSON_FUNGUS;
-		case WARPED_FUNGUS:
-			return Material.WARPED_FUNGUS;
-		case CRIMSON_NYLIUM:
-			return Material.CRIMSON_NYLIUM;
-		case WARPED_NYLIUM:
-			return Material.WARPED_NYLIUM;
-		case SOUL_SAND:
-			return Material.SOUL_SAND;
-		case NETHER_WART_BLOCK:
-			return Material.NETHER_WART_BLOCK;
-		case NETHER_WART:
-			return Material.NETHER_WART;
-		case NETHERRACK:
-			return Material.NETHERRACK;
-		case BROWN_MUSHROOM:
-			return Material.BROWN_MUSHROOM;
-		case RED_MUSHROOM:
-			return Material.RED_MUSHROOM;
-		case FIRE:
-			return Material.FIRE;
-		case BASALT:
-			return Material.BASALT;
-		case BLACKSTONE:
-			return Material.BLACKSTONE;
-		case MAGMA_BLOCK:
-			return Material.MAGMA_BLOCK;
-		case CRIMSON_STEM:
-			return Material.CRIMSON_STEM;
-		case WARPED_STEM:
-			return Material.WARPED_STEM;
 		default:
 			return main;
 			
 		}
-	}
-	
-	private Material randomPlant() {
-		if(rdm.nextBoolean()) { // 50% de chance
-			return plants[rdm.nextInt(plants.length)];
-		}
-		
-		return Material.AIR;
-		
 	}
 
 }
