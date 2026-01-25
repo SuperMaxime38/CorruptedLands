@@ -107,6 +107,8 @@ public class NetherWastes extends NetherBiome {
 			return Material.AIR;
 		case OXEYE_DAISY:
 			return Material.AIR;
+		case VINE:
+			return Material.AIR;
 			
 		default:
 			return main;

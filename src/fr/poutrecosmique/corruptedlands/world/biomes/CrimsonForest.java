@@ -151,6 +151,8 @@ public class CrimsonForest extends NetherBiome {
 			return Material.CRIMSON_SIGN;
 		case JUNGLE_WALL_SIGN:
 			return Material.CRIMSON_WALL_SIGN;
+		case VINE:
+			return Material.WEEPING_VINES_PLANT;
 		case ACACIA_LOG:
 			return Material.CRIMSON_STEM;
 		case ACACIA_LEAVES:
@@ -262,8 +264,8 @@ public class CrimsonForest extends NetherBiome {
 	public void weepingVines(Block b) {
 		int luck = rdm.nextInt(100);
 		
-		// 10% chance of weeping vines, 40% chance to continue an existing one
-		if(b.getType() == Material.AIR && (luck < 10 || luck < 40 && b.getRelative(BlockFace.UP).getType() == Material.WEEPING_VINES)) {
+		// 10% chance of weeping vines, 70% chance to continue an existing one
+		if(b.getType() == Material.AIR && (luck < 10 || luck < 70 && b.getRelative(BlockFace.UP).getType() == Material.WEEPING_VINES)) {
 			b.setType(Material.WEEPING_VINES_PLANT);
 			weepingVines(b.getRelative(BlockFace.DOWN));
 		}

@@ -71,8 +71,15 @@ public class Cluster {
 		return "Cluster [origin=" + origin + ", radius=" + radius + ", biome=" + biome + "]";
 	}
 	
+	public Cluster copy() {
+		return new Cluster(origin, biome, radius);
+	}
+	
 	public void expend() {
 		radius++;
+		
+		// Si le chunk n'est pas chargé, augmenter son rayon mais ne pas afficher la MaJ (pointless)
+		if(!origin.getChunk().isLoaded()) return;
 		
 		int minX = origin.getBlockX() - radius;
 		int minY = origin.getBlockY() - radius;
@@ -92,20 +99,29 @@ public class Cluster {
 		while(x < maxX) {
 			while(z < maxZ) {
 				while(y < maxY) {
-					b = origin.getWorld().getBlockAt(x, y, z);
-					if(b.getLocation().distance(origin) <= radius) {
-						m = biome.getMaterialFor(b.getType());
-						b.setType(m);
-						if(m == Material.LAVA) {
-							lavaPropagation(b, 1);
-							b.setType(m);
-						} else if((m == Material.CRIMSON_NYLIUM || m == Material.WARPED_NYLIUM) && isNearbyEdge(x, y, z, 2)) {
-							randomPlant(b);
-						} else if(biome instanceof CrimsonForest && m == Material.NETHER_WART_BLOCK && isNearbyEdge(x, y, z, 2)) {
-							((CrimsonForest) biome).weepingVines(b.getRelative(BlockFace.DOWN));
-						}
+					
+					// Si le bloc n'appartient pas à un autre cluster
+					if(!belongsToAnotherCluster(x, y, z)) {
+						b = origin.getWorld().getBlockAt(x, y, z);
 						
+						// S'il fait partie du cercle
+						if(b.getLocation().distance(origin) <= radius) {
+							m = biome.getMaterialFor(b.getType());
+							b.setType(m);
+							
+							// Propriétés spéciales pour certains blocks
+							if(m == Material.LAVA) {
+								lavaPropagation(b, 1);
+								b.setType(m);
+							} else if((m == Material.CRIMSON_NYLIUM || m == Material.WARPED_NYLIUM) && isNearbyEdge(x, y, z, 2)) {
+								randomPlant(b);
+							} else if(biome instanceof CrimsonForest && m == Material.NETHER_WART_BLOCK && isNearbyEdge(x, y, z, 2)) {
+								((CrimsonForest) biome).weepingVines(b.getRelative(BlockFace.DOWN));
+							}
+							
+						}
 					}
+					
 					y++;
 				}
 				y = origin.getBlockY() - radius;
@@ -114,6 +130,18 @@ public class Cluster {
 			z = origin.getBlockZ() - radius;
 			x++;
 		}
+	}
+	
+	private boolean belongsToAnotherCluster(int x, int y, int z) {
+		
+		Location loc = new Location(origin.getWorld(), x, y, z);
+		
+		for(Cluster c : ClusterManager.getClusters()) {
+			if(c == this)  continue;
+			if(c.origin.distance(loc) < c.radius) return true;
+		}
+		
+		return false;
 	}
 	
 	private boolean isNearbyEdge(int x, int y, int z, int distance) {
@@ -143,6 +171,8 @@ public class Cluster {
 	
 
 	private void randomPlant(Block b) {
+		if(b.getRelative(BlockFace.UP).getType() == Material.AIR) return;
+		
 		int luck = rdm.nextInt(100);
 		if(luck < 10) { // 10% de chance
 			if(biome instanceof WarpedForest) {
@@ -157,7 +187,7 @@ public class Cluster {
 	public boolean isMergeable(Cluster c) {
 		int distance = (int) origin.distance(c.getOrigin());
 		
-		return distance <= radius + c.getRadius();
+		return distance < radius + c.getRadius();
 	}
 	
 	public void merge(Cluster c) {
@@ -171,6 +201,9 @@ public class Cluster {
 		} else {
 			radius /= 2;
 		}
+		
+
+		System.out.println("new cluster loc: " + loc);
 	}
 	
 }

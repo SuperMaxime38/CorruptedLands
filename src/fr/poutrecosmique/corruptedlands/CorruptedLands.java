@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.poutrecosmique.corruptedlands.commands.ClusterCommand;
 import fr.poutrecosmique.corruptedlands.commands.CorruptionCommand;
+import fr.poutrecosmique.corruptedlands.events.MobListener;
 import fr.poutrecosmique.corruptedlands.events.WaterListener;
 
 public class CorruptedLands extends JavaPlugin {
@@ -12,7 +13,8 @@ public class CorruptedLands extends JavaPlugin {
 	public void onEnable() {
 
 		getServer().getPluginManager().registerEvents(new WaterListener(), this);
-		getCommand("cluster").setExecutor(new ClusterCommand());
+		getServer().getPluginManager().registerEvents(new MobListener(), this);
+		getCommand("cluster").setExecutor(new ClusterCommand(this));
 		getCommand("corruption").setExecutor(new CorruptionCommand());
 		System.out.println("Plugin started");
 	}

@@ -246,6 +246,9 @@ public class WarpedForest extends NetherBiome {
 			
 		case GRASS_BLOCK:
 			return Material.WARPED_NYLIUM;
+			
+		case VINE:
+			return Material.AIR;
 		default:
 			return main;
 			
@@ -260,8 +263,8 @@ public class WarpedForest extends NetherBiome {
 	public void twistingVines(Block b) {
 		int luck = rdm.nextInt(100);
 		
-		// 10% chance of twisting vines, 40% chance to continue an existing one
-		if(b.getType() == Material.AIR && (luck < 10 || luck < 40 && b.getRelative(BlockFace.DOWN).getType() == Material.TWISTING_VINES_PLANT)) {
+		// 10% chance of twisting vines, 70% chance to continue an existing one
+		if(b.getType() == Material.AIR && (luck < 10 || luck < 70 && b.getRelative(BlockFace.DOWN).getType() == Material.TWISTING_VINES_PLANT)) {
 			b.setType(Material.TWISTING_VINES_PLANT);
 			twistingVines(b.getRelative(BlockFace.UP));
 		}

@@ -6,7 +6,7 @@ public class BasaltDeltas extends NetherBiome {
 	
 	public BasaltDeltas() {
 		super();
-		main = Material.BASALT;
+		main = Material.BLACKSTONE;
 		ores = new Material[] { Material.BASALT, Material.BLACKSTONE };
 		sand = Material.MAGMA_BLOCK;
 		gravel = Material.BLACKSTONE;
@@ -38,6 +38,10 @@ public class BasaltDeltas extends NetherBiome {
 			return gravel;
 		case WATER:
 			return Material.LAVA;
+		case GRASS_BLOCK:
+			return Material.BASALT;
+		case DIRT:
+			return Material.BASALT;
 			
 			// ERADICATE
 		case OAK_LOG:
@@ -105,6 +109,8 @@ public class BasaltDeltas extends NetherBiome {
 		case PINK_TULIP:
 			return Material.AIR;
 		case OXEYE_DAISY:
+			return Material.AIR;
+		case VINE:
 			return Material.AIR;
 		default:
 			return main;

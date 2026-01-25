@@ -3,6 +3,7 @@ package fr.poutrecosmique.corruptedlands.world;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.poutrecosmique.corruptedlands.CorruptedLands;
@@ -13,7 +14,7 @@ public class ClusterManager {
 	static final int default_radius = 1;
 	
 	
-	static int delay = 30;
+	static int delay = 1;
 	
 	public static void addCluster(Cluster c) {
 		clusters.add(c);
@@ -37,6 +38,14 @@ public class ClusterManager {
 		}
 	}
 	
+	public static boolean isCorrupted(Location loc) {
+		for(Cluster c : clusters) {
+			if(c.origin.distance(loc) < c.radius) return true;
+		}
+		
+		return false;
+	}
+	
 	public static void gameTimer(CorruptedLands main) {
 		new BukkitRunnable() {
 
@@ -54,6 +63,8 @@ public class ClusterManager {
 		for(Cluster c : clusters) {
 			c.expend();
 		}
+		
+		System.out.println("Updated " + clusters.size() + " clusters");
 	}
 	
 	public static void checkMerge() {
@@ -76,6 +87,9 @@ public class ClusterManager {
 					if(current.isMergeable(next)) {
 						System.out.println("Merging...");
 						current.merge(next);
+						
+						next.setBiome(null); // Should take less memory
+						
 						clusters.remove(next);
 					}
 				}

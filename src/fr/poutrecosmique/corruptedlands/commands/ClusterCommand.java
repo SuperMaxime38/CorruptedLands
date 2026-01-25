@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import fr.poutrecosmique.corruptedlands.CorruptedLands;
 import fr.poutrecosmique.corruptedlands.world.Cluster;
 import fr.poutrecosmique.corruptedlands.world.ClusterManager;
 import fr.poutrecosmique.corruptedlands.world.biomes.BasaltDeltas;
@@ -14,6 +15,11 @@ import fr.poutrecosmique.corruptedlands.world.biomes.SoulSandValley;
 import fr.poutrecosmique.corruptedlands.world.biomes.WarpedForest;
 
 public class ClusterCommand implements CommandExecutor {
+	
+	CorruptedLands main;
+	public ClusterCommand(CorruptedLands main) {
+		this.main = main;
+	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -46,7 +52,8 @@ public class ClusterCommand implements CommandExecutor {
 				}
 				if(args[0].equals("update")) {
 					
-					ClusterManager.update();
+//					ClusterManager.update();
+					ClusterManager.gameTimer(main);
 					return true;
 				}
 				return true;

@@ -8,7 +8,7 @@ public class SoulSandValley extends NetherBiome {
 		super();
 		main = Material.SOUL_SOIL;
 		ores = new Material[] { Material.NETHER_QUARTZ_ORE, Material.NETHER_GOLD_ORE };
-		sand = Material.GRAVEL;
+		sand = Material.SOUL_SAND;
 		gravel = Material.GRAVEL;
 		plants = new Material[] { Material.CRIMSON_ROOTS, Material.SOUL_FIRE, Material.SOUL_FIRE };
 	}
@@ -108,6 +108,8 @@ public class SoulSandValley extends NetherBiome {
 		case PINK_TULIP:
 			return Material.AIR;
 		case OXEYE_DAISY:
+			return Material.AIR;
+		case VINE:
 			return Material.AIR;
 			
 		default:
