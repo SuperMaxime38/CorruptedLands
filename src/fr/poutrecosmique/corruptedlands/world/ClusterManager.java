@@ -13,6 +13,8 @@ public class ClusterManager {
 	static List<Cluster> clusters = new ArrayList<Cluster>();
 	static final int default_radius = 1;
 	
+	private static boolean shouldUpdate = false;
+	
 	
 	static int delay = 1;
 	
@@ -46,12 +48,16 @@ public class ClusterManager {
 		return false;
 	}
 	
+	public static void setShouldUpdate(boolean b) {
+		shouldUpdate = b;
+	}
+	
 	public static void gameTimer(CorruptedLands main) {
 		new BukkitRunnable() {
 
 			@Override
 			public void run() {
-				update();
+				if(shouldUpdate) update();
 			}
 			
 		}.runTaskTimer(main, 0, delay*20); // *20 bcs it's in ticks

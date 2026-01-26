@@ -40,7 +40,7 @@ public class ClusterCommand implements CommandExecutor {
 					sender.sendMessage("/cluster create <biome>");
 					
 					//We set default biome bcs it's a test version and this is what it is
-					ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new NetherWastes()));
+					ClusterManager.addCluster(new Cluster(main, ((Player) sender).getLocation(), new NetherWastes()));
 					
 					return true;
 				}
@@ -53,7 +53,8 @@ public class ClusterCommand implements CommandExecutor {
 				if(args[0].equals("update")) {
 					
 //					ClusterManager.update();
-					ClusterManager.gameTimer(main);
+					ClusterManager.setShouldUpdate(true);
+					sender.sendMessage("Starting update of clusters");
 					return true;
 				}
 				return true;
@@ -61,28 +62,34 @@ public class ClusterCommand implements CommandExecutor {
 				if(args[0].equals("create")) {
 					switch(args[1]) {
 					case "netherwastes":
-						ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new NetherWastes()));
+						ClusterManager.addCluster(new Cluster(main, ((Player) sender).getLocation(), new NetherWastes()));
 						sender.sendMessage("§aCluster created");
 						return true;
 					case "basaltdeltas":
-						ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new BasaltDeltas()));
+						ClusterManager.addCluster(new Cluster(main, ((Player) sender).getLocation(), new BasaltDeltas()));
 						sender.sendMessage("§aCluster created");
 						return true;
 					case "crimsonforest":
-						ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new CrimsonForest()));
+						ClusterManager.addCluster(new Cluster(main, ((Player) sender).getLocation(), new CrimsonForest()));
 						sender.sendMessage("§aCluster created");
 						return true;
 					case "soulsandvalley":
-						ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new SoulSandValley()));
+						ClusterManager.addCluster(new Cluster(main, ((Player) sender).getLocation(), new SoulSandValley()));
 						sender.sendMessage("§aCluster created");
 						return true;
 					case "warpedforest":
-						ClusterManager.addCluster(new Cluster(((Player) sender).getLocation(), new WarpedForest()));
+						ClusterManager.addCluster(new Cluster(main, ((Player) sender).getLocation(), new WarpedForest()));
 						sender.sendMessage("§aCluster created");
 						return true;
 					default:
 						sender.sendMessage("§cWrong biome <netherwastes|basaltdeltas|crimsonforest|soulsandvalley|warpedforest>");
 						return true;
+					}
+				}
+				if(args[0].equals("update")) {
+					if(args[1].equals("stop")) {
+						ClusterManager.setShouldUpdate(false);
+						sender.sendMessage("Stopping update of clusters");
 					}
 				}
 				

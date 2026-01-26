@@ -6,7 +6,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Structure;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.structure.UsageMode;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import fr.poutrecosmique.corruptedlands.CorruptedLands;
 import fr.poutrecosmique.corruptedlands.world.biomes.CrimsonForest;
 import fr.poutrecosmique.corruptedlands.world.biomes.NetherBiome;
 import fr.poutrecosmique.corruptedlands.world.biomes.NetherWastes;
@@ -18,28 +23,68 @@ public class Cluster {
 	int radius;
 	NetherBiome biome;
 	Random rdm;
+	
+	CorruptedLands main;
 
-	public Cluster(Location origin) {
+	public Cluster(CorruptedLands main, Location origin) {
+		this.main = main;
 		this.origin = origin;
 		rdm = new Random();
 		biome = new NetherWastes();
 		
 		radius = 1;
+		
+		createPortal();
 	}
 	
-	public Cluster(Location origin, NetherBiome biome) {
+	public Cluster(CorruptedLands main, Location origin, NetherBiome biome) {
+		this.main = main;
 		this.origin = origin;
 		this.biome = biome;
 		rdm = new Random();
 		
 		radius = 1;
+
+		createPortal();
 	}
 	
-	public Cluster(Location origin, NetherBiome biome, int radius) {
+	public Cluster(CorruptedLands main, Location origin, NetherBiome biome, int radius) {
+		this.main = main;
 		this.origin = origin;
 		this.biome = biome;
 		this.radius = radius;
 		rdm = new Random();
+
+		createPortal();
+	}
+	
+	private void createPortal() {
+		Block b = origin.getBlock().getRelative(-5, -3, -7); // So the origin is actually in the center
+		Material formerMat = b.getType();
+		b.setType(Material.STRUCTURE_BLOCK);
+		
+		Structure s = (Structure) b.getState();
+		
+		s.setAuthor("PoutreCosmique");
+		s.setUsageMode(UsageMode.LOAD);
+		s.setStructureName("ruined_portal/giant_portal_" + (rdm.nextInt(3) +1)); // ruined portal 1,2 or 3
+		
+		s.update();
+		
+		Block activator = b.getRelative(BlockFace.DOWN);
+		Material formerAct = activator.getType();
+		
+		activator.setType(Material.REDSTONE_BLOCK);
+		
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				b.setType(formerMat);
+				activator.setType(formerAct);
+			}
+			
+		}.runTaskLater(main, 1);
 	}
 	
 	public Location getOrigin() {
@@ -72,7 +117,7 @@ public class Cluster {
 	}
 	
 	public Cluster copy() {
-		return new Cluster(origin, biome, radius);
+		return new Cluster(main, origin, biome, radius);
 	}
 	
 	public void expend() {
@@ -96,6 +141,9 @@ public class Cluster {
 		Block b;
 		Material m;
 		
+		int effectArea = 16;
+		double distance;
+		
 		while(x < maxX) {
 			while(z < maxZ) {
 				while(y < maxY) {
@@ -105,7 +153,8 @@ public class Cluster {
 						b = origin.getWorld().getBlockAt(x, y, z);
 						
 						// S'il fait partie du cercle
-						if(b.getLocation().distance(origin) <= radius) {
+						distance = b.getLocation().distance(origin);
+						if(distance <= radius && distance >= radius - effectArea) {
 							m = biome.getMaterialFor(b.getType());
 							b.setType(m);
 							
@@ -171,7 +220,7 @@ public class Cluster {
 	
 
 	private void randomPlant(Block b) {
-		if(b.getRelative(BlockFace.UP).getType() == Material.AIR) return;
+		if(b.getRelative(BlockFace.UP).getType() != Material.AIR) return;
 		
 		int luck = rdm.nextInt(100);
 		if(luck < 10) { // 10% de chance

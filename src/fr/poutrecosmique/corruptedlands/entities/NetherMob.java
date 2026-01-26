@@ -7,9 +7,6 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 
 public abstract class NetherMob {
 	
@@ -36,10 +33,4 @@ public abstract class NetherMob {
 	}
 	
 	protected abstract void defaultMob();
-	
-	public abstract void setmaxHealth(double maxHealth);
-
-	public abstract void addPotionEffect(PotionEffect effect);
-	
-	public abstract void setEquipment(EquipmentSlot slot, ItemStack item);
 }

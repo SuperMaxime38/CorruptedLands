@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 public class MobUtils {
@@ -38,6 +39,7 @@ public class MobUtils {
 	private static List<Enchantment> offensive_enchants = new ArrayList<Enchantment>(Arrays.asList(Enchantment.FIRE_ASPECT, Enchantment.DAMAGE_ALL, Enchantment.DAMAGE_UNDEAD, Enchantment.DAMAGE_ARTHROPODS, Enchantment.KNOCKBACK, Enchantment.FIRE_ASPECT,
 			Enchantment.PIERCING, Enchantment.MULTISHOT));
 	
+	public static List<EntityType> passivesMobs = new ArrayList<EntityType>(Arrays.asList(EntityType.COW, EntityType.SHEEP, EntityType.PIG, EntityType.CHICKEN));
 	
 	public static ItemStack getItem(EquipmentPiece piece, boolean isDefensive) {
 		int rarity = rdm.nextInt(100);
