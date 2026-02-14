@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Structure;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.block.structure.UsageMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,6 +15,8 @@ import fr.poutrecosmique.corruptedlands.world.biomes.CrimsonForest;
 import fr.poutrecosmique.corruptedlands.world.biomes.NetherBiome;
 import fr.poutrecosmique.corruptedlands.world.biomes.NetherWastes;
 import fr.poutrecosmique.corruptedlands.world.biomes.WarpedForest;
+import fr.poutrecosmique.corruptedlands.world.regions.Region;
+import fr.poutrecosmique.corruptedlands.world.regions.RegionManager;
 
 public class Cluster {
 	
@@ -56,6 +57,8 @@ public class Cluster {
 		rdm = new Random();
 
 		createPortal();
+		
+		updateArea(origin.getBlockX() - radius, origin.getBlockY() - radius, origin.getBlockZ() - radius, origin.getBlockX() + radius, origin.getBlockY() + radius, origin.getBlockZ() + radius, radius);
 	}
 	
 	private void createPortal() {
@@ -127,25 +130,42 @@ public class Cluster {
 		if(!origin.getChunk().isLoaded()) return;
 		
 		int minX = origin.getBlockX() - radius;
-		int minY = origin.getBlockY() - radius;
+		int minY = Math.max(0, origin.getBlockY() - radius);
 		int minZ = origin.getBlockZ() - radius;
+		
+		int maxX = origin.getBlockX() + radius;
+		int maxY = Math.min(origin.getBlockY() + radius, 256);
+		int maxZ = origin.getBlockZ() + radius;
+		
+		int effectArea = 2;
+		
+		updateArea(minX, minY, minZ, maxX, maxY, maxZ, effectArea);
+		
+	}
+	
+	private void updateArea(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, int effectArea) {
 		
 		int x = minX;
 		int y = minY;
 		int z = minZ;
 		
-		int maxX = origin.getBlockX() + radius;
-		int maxY = origin.getBlockY() + radius;
-		int maxZ = origin.getBlockZ() + radius;
-		
 		Block b;
 		Material m;
-		
-		int effectArea = 16;
 		double distance;
 		
 		while(x < maxX) {
 			while(z < maxZ) {
+				
+				// Region Managing part
+				if(radius == Region.getSize()/2) {
+					if(x / Region.getSize() == 0 && y / Region.getSize() == 0) {
+						if(!RegionManager.contains(x, z)) {
+							RegionManager.addRegion(new Region(new Location(origin.getWorld(), x, 50, z)));
+						}
+					}
+				}
+				
+				
 				while(y < maxY) {
 					
 					// Si le bloc n'appartient pas à un autre cluster

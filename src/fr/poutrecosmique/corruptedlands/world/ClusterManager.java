@@ -48,6 +48,14 @@ public class ClusterManager {
 		return false;
 	}
 	
+	public static Cluster getCluster(Location loc) {
+		for(Cluster c : clusters) {
+			if(c.origin.distance(loc) < c.radius) return c;
+		}
+		
+		return null;
+	}
+	
 	public static void setShouldUpdate(boolean b) {
 		shouldUpdate = b;
 	}

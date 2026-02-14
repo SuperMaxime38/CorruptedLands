@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.WaterMob;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,6 +34,8 @@ public class MobListener implements Listener {
 		Entity e = ((EntityEvent) event).getEntity();
 		
 		if(!(e instanceof LivingEntity)) return;
+		
+		if(e instanceof WaterMob) return;
 		
 		Location loc = e.getLocation();
 		

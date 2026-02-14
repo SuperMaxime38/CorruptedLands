@@ -27,4 +27,8 @@ public class CorruptedLands extends JavaPlugin {
 		System.out.println("Plugin stoped");
 	}
 
+	public static CorruptedLands getInstance() {
+		return CorruptedLands.getPlugin(CorruptedLands.class);
+	}
+
 }
